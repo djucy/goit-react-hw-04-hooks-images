@@ -20,7 +20,7 @@ const Status = {
   REJECTED: 'rejected',
 };
 
-export default function App () {
+export default function App() {
   
   const [searchName, setSearchName] = useState('');
   const [page, setPage] = useState(1);
@@ -32,11 +32,12 @@ export default function App () {
   const [tags, setTags] = useState('');
   const [error, setError] = useState(null);
 
-  
+  console.log(images);
   
   // Поиск картинки по названию
   const handleSearchFormSubmit = searchName => {
-   setSearchName( searchName );
+    setSearchName(searchName);
+    setPage(1);
   };
 
   //Загрузка новых фотографий
@@ -50,13 +51,13 @@ export default function App () {
    getImages();
     scroll.scrollToTop();
    
-  }, [searchName]);
+  }, [searchName, page]);
   
   //Дозагрузка фото
   const onLoadImages = () => {
-    setStatus( Status.PENDING );
-    getImages();
-    scroll.scrollToBottom();
+    setStatus(Status.PENDING);
+    setPage(state=>state+1)
+    // scroll.scrollToBottom();
   };
   
  // Функция загрузки фотографий
@@ -65,7 +66,7 @@ export default function App () {
       .fetchSearchName(searchName, page)
       .then(newArrayImages => {
         setImages(state =>[...state, ...newArrayImages]);
-        setPage(state => state + 1);
+        // setPage();
         setStatus(Status.RESOLVED);
       })
 

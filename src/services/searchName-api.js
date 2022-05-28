@@ -11,10 +11,15 @@ function fetchSearchName(name, page) {
       );
     })
     .then(response => {
-      return response.hits;
+      return (
+        
+        response.hits);
     });
 }
 const api = {
   fetchSearchName,
 };
 export default api;
+// {id,webformatURL,largeImageURL,tags}=
+// [{ id, webformatURL, largeImageURL, tags }]
+// .{ id, webformatURL, largeImageURL, tags }
