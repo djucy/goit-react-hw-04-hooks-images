@@ -13,7 +13,7 @@ function fetchSearchName(name, page) {
     .then(response => {
       return (
         
-        response.hits);
+        response.hits.map(({id,webformatURL,largeImageURL,tags}) =>  ({id,webformatURL,largeImageURL,tags})));
     });
 }
 const api = {
