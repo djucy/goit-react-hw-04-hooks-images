@@ -20,6 +20,3 @@ const api = {
   fetchSearchName,
 };
 export default api;
-// {id,webformatURL,largeImageURL,tags}=
-// [{ id, webformatURL, largeImageURL, tags }]
-// .{ id, webformatURL, largeImageURL, tags }
