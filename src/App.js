@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Flip, ToastContainer } from 'react-toastify';
 import { animateScroll as scroll } from 'react-scroll';
 import '../node_modules/react-loader-spinner/dist/loader/css/react-spinner-loader.css';
@@ -21,7 +21,7 @@ const Status = {
 };
 
 export default function App() {
-  
+
   const [searchName, setSearchName] = useState('');
   const [page, setPage] = useState(1);
   const [images, setImages] = useState([]);
@@ -33,11 +33,13 @@ export default function App() {
   const [error, setError] = useState(null);
 
   console.log(images);
-  
+
   // Поиск картинки по названию
   const handleSearchFormSubmit = searchName => {
     setSearchName(searchName);
     setPage(1);
+    setImages([]);
+    scroll.scrollToTop();
   };
 
   //Загрузка новых фотографий
@@ -45,28 +47,29 @@ export default function App() {
   useEffect(() => {
     if (searchName === '') {
       return
-     }
+    }
     setStatus(Status.PENDING);
-    setImages([]);
-   getImages();
-    scroll.scrollToTop();
-   
+    setImages(images);
+    getImages();
+    // scroll.scrollToTop();
+
   }, [searchName, page]);
-  
+
   //Дозагрузка фото
   const onLoadImages = () => {
     setStatus(Status.PENDING);
-    setPage(state=>state+1)
-    // scroll.scrollToBottom();
+    setPage(state => state + 1)
+
+    scroll.scrollToBottom();
   };
-  
- // Функция загрузки фотографий
+
+  // Функция загрузки фотографий
   const getImages = () => {
     searchNameApi
       .fetchSearchName(searchName, page)
       .then(newArrayImages => {
-        setImages(state =>[...state, ...newArrayImages]);
-        // setPage();
+        setImages(state => [...state, ...newArrayImages]);
+        setPage(page);
         setStatus(Status.RESOLVED);
       })
 
@@ -74,13 +77,13 @@ export default function App() {
         setError(error);
         setStatus(Status.REJECTED)
       });
-   }
- 
+  }
 
-  
+
+
 
   //Загрузка картинки при открытии модалки
-  const onOpenImage = ( id, largeImageURL, tags ) => {
+  const onOpenImage = (id, largeImageURL, tags) => {
     setId(id);
     setLargeImageURL(largeImageURL);
     setTags(tags);
@@ -91,7 +94,7 @@ export default function App() {
   const toggleModal = () => {
     setShowModal(state => !state);
   };
-  
+
   // Закрытие модалки
   const onCloseModal = e => {
     if (e.currentTurget === e.turget) {
@@ -99,31 +102,31 @@ export default function App() {
     }
   };
 
-    return (
-      <Section>
-        <Searchbar onSubmit={handleSearchFormSubmit}></Searchbar>
-        <ToastContainer transition={Flip} />
+  return (
+    <Section>
+      <Searchbar onSubmit={handleSearchFormSubmit}></Searchbar>
+      <ToastContainer transition={Flip} />
 
-        <ImageGallery
-          images={images}
-          onClick={onOpenImage}
-          status={status}
-        />
-        {images.length >= 12 && images.length !== 0 && (
-          <Button onLoadImages={onLoadImages} />
-        )}
-        {showModal && (
-          <Modal onClose={toggleModal}>
-            {
-              <ModalImage
-                url={largeImageURL}
-                id={id}
-                alt={tags}
-                onClick={onCloseModal}
-              ></ModalImage>
-            }
-          </Modal>
-        )}
-      </Section>
-    );
-  }
+      <ImageGallery
+        images={images}
+        onClick={onOpenImage}
+        status={status}
+      />
+      {images.length >= 12 && images.length !== 0 && (
+        <Button onLoadImages={onLoadImages} />
+      )}
+      {showModal && (
+        <Modal onClose={toggleModal}>
+          {
+            <ModalImage
+              url={largeImageURL}
+              id={id}
+              alt={tags}
+              onClick={onCloseModal}
+            ></ModalImage>
+          }
+        </Modal>
+      )}
+    </Section>
+  );
+}
