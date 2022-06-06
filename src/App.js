@@ -48,8 +48,8 @@ export default function App() {
     if (searchName === '') {
       return
     }
-    setStatus(Status.PENDING);
-    setImages(images);
+    // setStatus(Status.PENDING);
+    // setImages(images);
     getImages();
     // scroll.scrollToTop();
 
@@ -57,7 +57,7 @@ export default function App() {
 
   //Дозагрузка фото
   const onLoadImages = () => {
-    setStatus(Status.PENDING);
+    // setStatus(Status.PENDING);
     setPage(state => state + 1)
 
     scroll.scrollToBottom();
@@ -67,66 +67,66 @@ export default function App() {
   const getImages = () => {
     searchNameApi
       .fetchSearchName(searchName, page)
-      .then(newArrayImages => {
-        setImages(state => [...state, ...newArrayImages]);
-        setPage(page);
-        setStatus(Status.RESOLVED);
-      })
+      .then({ newArrayImages => {
+    setImages(state => [...state, ...newArrayImages]);
+    // setPage(page);
+    setStatus(Status.RESOLVED);
+  })
 
-      .catch(error => {
-        setError(error);
-        setStatus(Status.REJECTED)
-      });
-  }
-
-
+      .catch (error => {
+    setError(error);
+    setStatus(Status.REJECTED)
+  });
+}
 
 
-  //Загрузка картинки при открытии модалки
-  const onOpenImage = (id, largeImageURL, tags) => {
-    setId(id);
-    setLargeImageURL(largeImageURL);
-    setTags(tags);
+
+
+//Загрузка картинки при открытии модалки
+const onOpenImage = (id, largeImageURL, tags) => {
+  setId(id);
+  setLargeImageURL(largeImageURL);
+  setTags(tags);
+  toggleModal();
+};
+
+//Открытие модалки
+const toggleModal = () => {
+  setShowModal(state => !state);
+};
+
+// Закрытие модалки
+const onCloseModal = e => {
+  if (e.currentTurget === e.turget) {
     toggleModal();
-  };
+  }
+};
 
-  //Открытие модалки
-  const toggleModal = () => {
-    setShowModal(state => !state);
-  };
+return (
+  <Section>
+    <Searchbar onSubmit={handleSearchFormSubmit}></Searchbar>
+    <ToastContainer transition={Flip} />
 
-  // Закрытие модалки
-  const onCloseModal = e => {
-    if (e.currentTurget === e.turget) {
-      toggleModal();
-    }
-  };
-
-  return (
-    <Section>
-      <Searchbar onSubmit={handleSearchFormSubmit}></Searchbar>
-      <ToastContainer transition={Flip} />
-
-      <ImageGallery
-        images={images}
-        onClick={onOpenImage}
-        status={status}
-      />
-      {images.length >= 12 && images.length !== 0 && (
-        <Button onLoadImages={onLoadImages} />
-      )}
-      {showModal && (
-        <Modal onClose={toggleModal}>
-          {
-            <ModalImage
-              url={largeImageURL}
-              id={id}
-              alt={tags}
-              onClick={onCloseModal}
-            ></ModalImage>
-          }
-        </Modal>
-      )}
-    </Section>
-  );
+    <ImageGallery
+      images={images}
+      onClick={onOpenImage}
+      status={status}
+    />
+    {images.length >= 12 && images.length !== 0 && (
+      <Button onLoadImages={onLoadImages} />
+    )}
+    {showModal && (
+      <Modal onClose={toggleModal}>
+        {
+          <ModalImage
+            url={largeImageURL}
+            id={id}
+            alt={tags}
+            onClick={onCloseModal}
+          ></ModalImage>
+        }
+      </Modal>
+    )}
+  </Section>
+);
 }

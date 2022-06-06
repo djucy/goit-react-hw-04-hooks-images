@@ -7,7 +7,7 @@ const Spinner = ({ text }) => {
   return (
     <div className={s.Spinner__position}>
       <span className={s.Spinner__box}>
-        <BallTriangle color="#168b64" height={110} width={110} />
+        <BallTriangle color="#168b64" height={50} width={50} />
       </span>
       <p className={s.Spinner__text}>{text}</p>
     </div>

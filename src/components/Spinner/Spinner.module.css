@@ -1,5 +1,6 @@
 .Spinner__position {
   display: flex;
+  margin-top: auto;
   margin-left: auto;
   margin-right: auto;
   flex-direction: column;
