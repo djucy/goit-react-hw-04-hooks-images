@@ -32,7 +32,7 @@ export default function App() {
   const [tags, setTags] = useState('');
   const [error, setError] = useState(null);
 
-  console.log(images);
+
 
   // Поиск картинки по названию
   const handleSearchFormSubmit = searchName => {
@@ -40,7 +40,7 @@ export default function App() {
     setPage(1);
     setImages([]);
     setStatus(Status.PENDING);
-    scroll.scrollToTop();
+    // scroll.scrollToTop();
   };
 
   //Загрузка новых фотографий
@@ -55,7 +55,14 @@ export default function App() {
   //Дозагрузка фото
   const onLoadImages = () => {
     setPage(state => state + 1)
-    scroll.scrollToBottom();
+    // scroll.scrollToBottom('myScrollToElement', {
+    //   duration: 2000,
+    //   delay: 100,
+    //   smooth: 'easeInCubic',
+    //   // offset: -50,
+    //   isDynamic: true
+    // });
+    scrollPage();
   };
 
   // Функция загрузки фотографий
@@ -97,6 +104,15 @@ export default function App() {
     }
   };
 
+  //Скрол страницы
+  const scrollPage = () => scroll.scrollToBottom('myScrollToElement', {
+    duration: 2000,
+    delay: 100,
+    smooth: 'easeInCubic',
+    // offset: -50,
+    isDynamic: true
+  });
+
   return (
     <Section>
       <Searchbar onSubmit={handleSearchFormSubmit}></Searchbar>
@@ -126,4 +142,3 @@ export default function App() {
   );
 }
 
-// state => [...state, ...newArrayImages]

@@ -30,10 +30,10 @@ export default function ImageGallery({ images, status, error, onClick }) {
   //Спиннер при загрузке фотографий
   if (status === Status.PENDING) {
     return (
-      // <Section>
-      <Spinner
-        text={'Please,wait. We are searching the pictures for you'}
-      ></Spinner>
+      <Section>
+        <Spinner
+          text={'Please,wait. We are searching the pictures for you'}
+        ></Spinner>
       // </Section>
     );
   }
