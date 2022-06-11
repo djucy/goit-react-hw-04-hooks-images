@@ -39,6 +39,7 @@ export default function App() {
     setSearchName(searchName);
     setPage(1);
     setImages([]);
+    setStatus(Status.PENDING);
     scroll.scrollToTop();
   };
 
@@ -48,18 +49,12 @@ export default function App() {
     if (searchName === '') {
       return
     }
-    // setStatus(Status.PENDING);
-    // setImages(images);
     getImages();
-    // scroll.scrollToTop();
-
   }, [searchName, page]);
 
   //Дозагрузка фото
   const onLoadImages = () => {
-    // setStatus(Status.PENDING);
     setPage(state => state + 1)
-
     scroll.scrollToBottom();
   };
 
@@ -68,13 +63,13 @@ export default function App() {
     searchNameApi
       .fetchSearchName(searchName, page)
       .then(newArrayImages => {
+
         setImages(state => [...state, ...newArrayImages]);
-        // setPage(page);
         setStatus(Status.RESOLVED);
       })
 
       .catch(error => {
-        setError(error);
+        setError(error.message);
         setStatus(Status.REJECTED)
       });
   }
@@ -130,3 +125,5 @@ export default function App() {
     </Section>
   );
 }
+
+// state => [...state, ...newArrayImages]
